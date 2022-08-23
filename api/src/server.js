@@ -22,7 +22,7 @@ async function main() {
     res.send('Hello World');
   });
 
-  // This line rus the server
+  // This line runs the server
   server.listen(config.port, () => {
     console.log(`Server URL: http://localhost:${config.port}/`);
   });
@@ -31,3 +31,14 @@ async function main() {
 main();
 
 */
+import { graphql } from "graphql";
+
+import { schema, rootValue } from "./schema";
+
+const executeGraphQLRequest = async request => {
+  const response = await graphql({ schema, rootValue, source: request });
+
+  console.log(response.data);
+};
+
+executeGraphQLRequest(process.argv[2]);
