@@ -1,8 +1,3 @@
-/** GIA NOTES
- *
- * Use the code below to start a bare-bone express web server
- */
-
 import cors from "cors";
 import morgan from "morgan";
 import express from "express";
