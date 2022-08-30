@@ -4,8 +4,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import { graphqlHTTP } from "express-graphql";
 
+import { schema } from "./schema";
 import * as config from "./config";
-import { schema, rootValue } from "./schema";
 
 async function main() {
   const server = express();
@@ -16,7 +16,7 @@ async function main() {
   server.use("/:fav.ico", (req, res) => res.sendStatus(204));
 
   // Example route
-  server.use("/", graphqlHTTP({ schema, rootValue, graphiql: true }));
+  server.use("/", graphqlHTTP({ schema, graphiql: true }));
 
   // This line runs the server
   server.listen(config.port, () => {
