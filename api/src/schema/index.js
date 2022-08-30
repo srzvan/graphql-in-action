@@ -21,7 +21,7 @@ const QueryType = new GraphQLObjectType({
       },
     },
     numbersInRange: {
-      type: new GraphQLNonNull(NumbersInRange),
+      type: NumbersInRange,
       args: {
         begin: { type: new GraphQLNonNull(GraphQLInt) },
         end: { type: new GraphQLNonNull(GraphQLInt) },
