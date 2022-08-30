@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLNonNull, GraphQLInt } from 'graphql';
+import { GraphQLObjectType, GraphQLNonNull, GraphQLInt, GraphQLFloat } from 'graphql';
 
 const NumbersInRange = new GraphQLObjectType({
   name: 'NumbersInRange',
@@ -6,6 +6,7 @@ const NumbersInRange = new GraphQLObjectType({
   fields: {
     sum: { type: new GraphQLNonNull(GraphQLInt) },
     count: { type: new GraphQLNonNull(GraphQLInt) },
+    avg: { type: new GraphQLNonNull(GraphQLFloat) },
   },
 });
 

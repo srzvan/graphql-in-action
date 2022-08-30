@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 
-export const randomString = (bytesSize = 32) =>
-  crypto.randomBytes(bytesSize).toString('hex');
+export const randomString = (bytesSize = 32) => crypto.randomBytes(bytesSize).toString('hex');
 
 export const numbersInRangeObject = (begin, end) => {
   let sum = 0;
@@ -15,5 +14,6 @@ export const numbersInRangeObject = (begin, end) => {
   return {
     sum,
     count,
+    avg: sum / count,
   };
 };
