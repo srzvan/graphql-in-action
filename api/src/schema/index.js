@@ -1,7 +1,16 @@
-import { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLNonNull, GraphQLInt } from "graphql";
+import {
+  GraphQLInt,
+  GraphQLString,
+  GraphQLSchema,
+  GraphQLNonNull,
+  GraphQLObjectType,
+} from 'graphql';
+
+import { numbersInRangeObject } from '../utils';
+import NumbersInRange from './types/numbers-in-range';
 
 const QueryType = new GraphQLObjectType({
-  name: "Query",
+  name: 'Query',
   fields: {
     currentTime: {
       type: GraphQLString,
@@ -11,20 +20,14 @@ const QueryType = new GraphQLObjectType({
         return isoString.slice(11, 19);
       },
     },
-    sumNumbersInRange: {
-      type: new GraphQLNonNull(GraphQLInt),
+    numbersInRange: {
+      type: new GraphQLNonNull(NumbersInRange),
       args: {
         begin: { type: new GraphQLNonNull(GraphQLInt) },
         end: { type: new GraphQLNonNull(GraphQLInt) },
       },
       resolve: function (_, { begin, end }) {
-        let sum = 0;
-
-        for (let i = begin; i <= end; i++) {
-          sum += i;
-        }
-
-        return sum;
+        return numbersInRangeObject(begin, end);
       },
     },
   },
