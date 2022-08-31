@@ -17,9 +17,13 @@ const QueryType = new GraphQLObjectType({
       description: 'The current time in ISO UTC',
       type: GraphQLString,
       resolve: () => {
-        const isoString = new Date().toISOString();
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            const isoString = new Date().toISOString();
 
-        return isoString.slice(11, 19);
+            resolve(isoString.slice(11, 19));
+          }, 5000);
+        });
       },
     },
     numbersInRange: {
