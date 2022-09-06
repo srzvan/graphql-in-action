@@ -12,10 +12,10 @@ const User = new GraphQLObjectType({
       resolve: (source) => [source.firstName, source.lastName].filter(Boolean).join(' '),
     },
     username: { type: new GraphQLNonNull(GraphQLString) },
-    // createdAt: {
-    //   type: new GraphQLNonNull(GraphQLString),
-    //   resolve: (source) => source.createdAt.toISOString(),
-    // },
+    createdAt: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: (source) => source.createdAt.toISOString(),
+    },
     // taskList: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(Task))),
   },
 });
