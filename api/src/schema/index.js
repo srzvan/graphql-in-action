@@ -10,7 +10,6 @@ import {
 import Task from './types/task';
 import { numbersInRangeObject } from '../utils';
 import NumbersInRange from './types/numbers-in-range';
-import { taskMainList } from './resolvers/taskMainList';
 
 const QueryType = new GraphQLObjectType({
   description: 'The root query entry point for the API',
@@ -19,7 +18,7 @@ const QueryType = new GraphQLObjectType({
     taskMainList: {
       description: 'A list of the most recent 100 Task objects',
       type: new GraphQLList(new GraphQLNonNull(Task)),
-      resolve: taskMainList,
+      resolve: (_, __, { pgAPI }) => pgAPI.taskMainList(),
     },
     currentTime: {
       description: 'The current time in ISO UTC',

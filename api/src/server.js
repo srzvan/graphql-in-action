@@ -6,7 +6,7 @@ import { graphqlHTTP } from 'express-graphql';
 
 import { schema } from './schema';
 import * as config from './config';
-import pgClient from './db/pg-client';
+import pgAPIWrapper from './db/pg-api';
 
 async function main() {
   const server = express();
@@ -16,8 +16,8 @@ async function main() {
   server.use(bodyParser.json());
   server.use('/:fav.ico', (req, res) => res.sendStatus(204));
 
-  const { pgPool } = await pgClient();
-  server.use('/', graphqlHTTP({ schema, context: { pgPool }, graphiql: true }));
+  const pgAPI = await pgAPIWrapper();
+  server.use('/', graphqlHTTP({ schema, context: { pgAPI }, graphiql: true }));
 
   // This line runs the server
   server.listen(config.port, () => {
