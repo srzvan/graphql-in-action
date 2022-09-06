@@ -9,6 +9,10 @@ async function pgAPIWrapper() {
       const response = await query(sqlStatements.tasksLatest);
       return response.rows;
     },
+    userInfo: async (id) => {
+      const response = await query(sqlStatements.usersFromIds, { $1: [id] });
+      return response.rows[0];
+    },
   };
 
   function query(text, params = {}) {
