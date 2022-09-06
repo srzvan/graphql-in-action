@@ -1,10 +1,10 @@
 import {
+  GraphQLID,
   GraphQLInt,
   GraphQLList,
   GraphQLString,
   GraphQLNonNull,
   GraphQLObjectType,
-  GraphQLID,
 } from 'graphql';
 
 import SearchResultItem from './search-result-item';
