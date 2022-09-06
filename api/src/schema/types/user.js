@@ -9,19 +9,7 @@ const User = new GraphQLObjectType({
     id: { type: new GraphQLNonNull(GraphQLID) },
     name: {
       type: GraphQLString,
-      resolve: (source) => {
-        if (source.firstName && source.lastName) {
-          return `${source.firstName} ${source.lastName}`;
-        }
-
-        if (source.firstName && !source.lastName) {
-          return source.firstName;
-        }
-
-        if (!source.firstName && source.lastName) {
-          return source.lastName;
-        }
-      },
+      resolve: (source) => [source.firstName, source.lastName].filter(Boolean).join(' '),
     },
     username: { type: new GraphQLNonNull(GraphQLString) },
     // createdAt: {
