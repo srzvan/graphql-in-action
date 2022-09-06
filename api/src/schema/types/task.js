@@ -7,6 +7,7 @@ import {
   GraphQLObjectType,
 } from 'graphql';
 
+import User from './user';
 import SearchResultItem from './search-result-item';
 
 const Task = new GraphQLObjectType({
@@ -15,6 +16,7 @@ const Task = new GraphQLObjectType({
   interfaces: [SearchResultItem],
   fields: {
     id: { type: new GraphQLNonNull(GraphQLID) },
+    userId: { type: new GraphQLNonNull(GraphQLID) },
     content: { type: new GraphQLNonNull(GraphQLString) },
     createdAt: {
       type: new GraphQLNonNull(GraphQLString),
@@ -23,6 +25,10 @@ const Task = new GraphQLObjectType({
     tags: {
       type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GraphQLString))),
       resolve: transformTags,
+    },
+    author: {
+      type: new GraphQLNonNull(User),
+      resolve: (source, _, { pgAPI }) => pgAPI.userInfo(source.userId),
     },
     approachCount: {
       type: new GraphQLNonNull(GraphQLInt),
