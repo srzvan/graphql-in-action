@@ -17,12 +17,26 @@ async function main() {
   server.use('/:fav.ico', (req, res) => res.sendStatus(204));
 
   const pgAPI = await pgAPIWrapper();
-  server.use('/', graphqlHTTP({ schema, context: { pgAPI }, graphiql: true }));
+  server.use('/', graphqlHTTP({ schema, context: { pgAPI }, graphiql: true, customFormatErrorFn }));
 
   // This line runs the server
   server.listen(config.port, () => {
     console.log(`Server URL: http://localhost:${config.port}/`);
   });
+}
+
+function customFormatErrorFn(error) {
+  const GENERIC_ERROR = { message: 'Oops! Something went wrong! :(' };
+  const report = {
+    message: error.message,
+    locations: error.locations,
+    stack: error.stack ? error.stack.split('\n') : [],
+    path: error.path,
+  };
+
+  console.error('GraphQL Error', report);
+
+  return config.isDev ? report : GENERIC_ERROR;
 }
 
 main();
