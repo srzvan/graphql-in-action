@@ -17,9 +17,18 @@ const Task = new GraphQLObjectType({
     id: { type: new GraphQLNonNull(GraphQLID) },
     content: { type: new GraphQLNonNull(GraphQLString) },
     createdAt: { type: new GraphQLNonNull(GraphQLString) },
-    tags: { type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GraphQLString))) },
-    approachCount: { type: new GraphQLNonNull(GraphQLInt) },
+    tags: {
+      type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GraphQLString))),
+      resolve: transformTags,
+    },
+    approachCount: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
   },
 });
+
+function transformTags(source) {
+  return source.tags.split(',');
+}
 
 export default Task;
