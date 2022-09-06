@@ -1,5 +1,5 @@
-import pgClient from './pg-client';
-import sqlStatements from './sqls';
+import { pgClient } from './pg-client';
+import { statements as sqlStatements } from './sqls';
 
 async function pgAPIWrapper() {
   const { pgPool: connectionsPool } = await pgClient();

@@ -9,6 +9,7 @@ import {
 
 import User from './user';
 import SearchResultItem from './search-result-item';
+import { extractPrefixedProps } from '../../utils';
 
 const Task = new GraphQLObjectType({
   name: 'Task',
@@ -16,7 +17,6 @@ const Task = new GraphQLObjectType({
   interfaces: [SearchResultItem],
   fields: {
     id: { type: new GraphQLNonNull(GraphQLID) },
-    userId: { type: new GraphQLNonNull(GraphQLID) },
     content: { type: new GraphQLNonNull(GraphQLString) },
     createdAt: {
       type: new GraphQLNonNull(GraphQLString),
@@ -28,7 +28,7 @@ const Task = new GraphQLObjectType({
     },
     author: {
       type: new GraphQLNonNull(User),
-      resolve: (source, _, { pgAPI }) => pgAPI.userInfo(source.userId),
+      resolve: (source) => extractPrefixedProps(source, 'author'),
     },
     approachCount: {
       type: new GraphQLNonNull(GraphQLInt),

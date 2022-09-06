@@ -2,7 +2,7 @@ import pg from 'pg';
 
 import { pgConnectionString } from '../config';
 
-export default async function pgClient() {
+export async function pgClient() {
   const pgPool = new pg.Pool({
     connectionString: pgConnectionString,
   });
@@ -15,10 +15,7 @@ export default async function pgClient() {
   );
   client.release();
 
-  console.log(
-    'Connected to PostgreSQL | Tables count:',
-    tableCountResp.rows[0].count
-  );
+  console.log('Connected to PostgreSQL | Tables count:', tableCountResp.rows[0].count);
 
   pgPool.on('error', (err) => {
     console.error('Unexpected PG client error', err);
