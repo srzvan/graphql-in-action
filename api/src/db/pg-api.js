@@ -13,6 +13,12 @@ async function pgAPIWrapper() {
       const response = await query(sqlStatements.usersFromIds, { $1: [id] });
       return response.rows[0];
     },
+    approachList: async (taskId) => {
+      const response = await query(sqlStatements.approachesForTaskIds, {
+        $1: [taskId],
+      });
+      return response.rows;
+    },
   };
 
   function query(text, params = {}) {
