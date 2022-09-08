@@ -8,8 +8,8 @@ import {
 } from 'graphql';
 
 import User from './user';
+import Approach from './approach';
 import SearchResultItem from './search-result-item';
-import { extractPrefixedProps } from '../../utils';
 
 const Task = new GraphQLObjectType({
   name: 'Task',
@@ -28,10 +28,14 @@ const Task = new GraphQLObjectType({
     },
     author: {
       type: new GraphQLNonNull(User),
-      resolve: (source) => extractPrefixedProps(source, 'author'),
+      resolve: (source, _, { pgAPI }) => pgAPI.userInfo(source.userId),
     },
     approachCount: {
       type: new GraphQLNonNull(GraphQLInt),
+    },
+    approachList: {
+      type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(Approach))),
+      resolve: (source, _, { pgAPI }) => pgAPI.approachList(source.id),
     },
   },
 });
