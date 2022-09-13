@@ -1,6 +1,7 @@
 import cors from 'cors';
 import morgan from 'morgan';
 import express from 'express';
+import DataLoader from 'dataloader';
 import bodyParser from 'body-parser';
 import { graphqlHTTP } from 'express-graphql';
 
@@ -17,7 +18,19 @@ async function main() {
   server.use('/:fav.ico', (req, res) => res.sendStatus(204));
 
   const pgAPI = await pgAPIWrapper();
-  server.use('/', graphqlHTTP({ schema, context: { pgAPI }, graphiql: true, customFormatErrorFn }));
+  server.use('/', (req, res) => {
+    const loaders = {
+      users: new DataLoader((userIds) => pgAPI.getUsersById(userIds)),
+      approachLists: new DataLoader((taskIds) => pgAPI.approachLists(taskIds)),
+    };
+
+    graphqlHTTP({
+      schema,
+      graphiql: true,
+      customFormatErrorFn,
+      context: { pgAPI, loaders },
+    })(req, res);
+  });
 
   // This line runs the server
   server.listen(config.port, () => {

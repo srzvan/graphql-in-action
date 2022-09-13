@@ -19,3 +19,15 @@ export function extractPrefixedProps(prefixedObject, prefix) {
     return unprefixedObject;
   }
 }
+
+export function commaSeparatedStringToArray(source) {
+  return source.tags.split(',');
+}
+
+export function convertArrayToObjectById(arr) {
+  return arr.reduce((objectById, currentItem) => {
+    objectById[currentItem.id] = currentItem;
+
+    return objectById;
+  }, {});
+}

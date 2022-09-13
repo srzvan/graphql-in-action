@@ -23,7 +23,7 @@ const Approach = new GraphQLObjectType({
     voteCount: { type: new GraphQLNonNull(GraphQLInt) },
     author: {
       type: new GraphQLNonNull(User),
-      resolve: (source, _, { pgAPI }) => pgAPI.userInfo(source.userId),
+      resolve: (source, _, { loaders }) => loaders.users.load(source.userId),
     },
     // task: new GraphQLNonNull(Task),
     // detailList: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(ApproachDetail)))

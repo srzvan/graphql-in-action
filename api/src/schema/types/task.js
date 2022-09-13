@@ -10,6 +10,7 @@ import {
 import User from './user';
 import Approach from './approach';
 import SearchResultItem from './search-result-item';
+import { commaSeparatedStringToArray } from '../../utils';
 
 const Task = new GraphQLObjectType({
   name: 'Task',
@@ -24,24 +25,20 @@ const Task = new GraphQLObjectType({
     },
     tags: {
       type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GraphQLString))),
-      resolve: transformTags,
+      resolve: commaSeparatedStringToArray,
     },
     author: {
       type: new GraphQLNonNull(User),
-      resolve: (source, _, { pgAPI }) => pgAPI.userInfo(source.userId),
+      resolve: (source, _, { loaders }) => loaders.users.load(source.userId),
     },
     approachCount: {
       type: new GraphQLNonNull(GraphQLInt),
     },
     approachList: {
       type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(Approach))),
-      resolve: (source, _, { pgAPI }) => pgAPI.approachList(source.id),
+      resolve: (source, _, { loaders }) => loaders.approachLists.load(source.id),
     },
   },
 });
-
-function transformTags(source) {
-  return source.tags.split(',');
-}
 
 export default Task;

@@ -1,4 +1,5 @@
 import { pgClient } from './pg-client';
+import { convertArrayToObjectById } from '../utils';
 import { statements as sqlStatements } from './sqls';
 
 async function pgAPIWrapper() {
@@ -9,15 +10,20 @@ async function pgAPIWrapper() {
       const response = await query(sqlStatements.tasksLatest);
       return response.rows;
     },
-    userInfo: async (id) => {
-      const response = await query(sqlStatements.usersFromIds, { $1: [id] });
-      return response.rows[0];
+    getUsersById: async (ids) => {
+      const response = await query(sqlStatements.usersFromIds, { $1: ids });
+      const users = convertArrayToObjectById(response.rows);
+
+      return ids.map((id) => users[id]);
     },
-    approachList: async (taskId) => {
+    approachLists: async (taskIds) => {
       const response = await query(sqlStatements.approachesForTaskIds, {
-        $1: [taskId],
+        $1: taskIds,
       });
-      return response.rows;
+
+      return taskIds.map((taskId) =>
+        response.rows.filter((row) => taskId === row.taskId)
+      );
     },
   };
 
