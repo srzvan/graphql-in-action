@@ -25,6 +25,14 @@ async function pgAPIWrapper() {
         response.rows.filter((row) => taskId === row.taskId)
       );
     },
+    getTasksById: async (taskIds) => {
+      const response = await query(sqlStatements.tasksFromIds, {
+        $1: taskIds,
+        $2: null, // TODO: pass logged-in userId here.
+      });
+
+      return taskIds.map((taskId) => response.rows.find((row) => taskId == row.id));
+    },
   };
 
   function query(text, params = {}) {
