@@ -22,9 +22,6 @@ export const QueryType = new GraphQLObjectType({
       resolve: async (_, args, { loaders }) => {
         return loaders.tasks.load(args.id);
       },
-      // Array.isArray(args.id)
-      //   ? loaders.tasks.load(args.id)
-      //   : loaders.tasks.load([args.id]),
     },
   },
 });
