@@ -7,13 +7,14 @@ import {
 } from 'graphql';
 
 import User from './user';
+import Task from './task';
 import SearchResultItem from './search-result-item';
 
 const Approach = new GraphQLObjectType({
   name: 'Approach',
   description: 'An Approach is a possible solution for a Task',
   interfaces: [SearchResultItem],
-  fields: {
+  fields: () => ({
     id: { type: new GraphQLNonNull(GraphQLID) },
     content: { type: new GraphQLNonNull(GraphQLString) },
     createdAt: {
@@ -25,9 +26,11 @@ const Approach = new GraphQLObjectType({
       type: new GraphQLNonNull(User),
       resolve: (source, _, { loaders }) => loaders.users.load(source.userId),
     },
-    // task: new GraphQLNonNull(Task),
-    // detailList: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(ApproachDetail)))
-  },
+    task: {
+      type: new GraphQLNonNull(Task),
+      resolve: (source, _, { loaders }) => loaders.tasks.load(source.taskId),
+    },
+  }),
 });
 
 export default Approach;
