@@ -46,6 +46,18 @@ async function pgAPIWrapper() {
 
       return taskIds.map((taskId) => response.rows.find((row) => taskId == row.id));
     },
+    searchResults: async (searchTerms) => {
+      const results = searchTerms.map(async (term) => {
+        const response = await query(sqlStatements.searchResults, {
+          $1: term,
+          $2: null,
+        });
+
+        return response.rows;
+      });
+
+      return Promise.all(results);
+    },
   };
 
   function query(text, params = {}) {

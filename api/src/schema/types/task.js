@@ -15,13 +15,20 @@ import { commaSeparatedStringToArray } from '../../utils';
 const Task = new GraphQLObjectType({
   name: 'Task',
   description: 'A task is a user created resource',
-  interfaces: [SearchResultItem],
+  interfaces: () => [SearchResultItem],
+  // isTypeOf: (source) => {
+  //   // console.log(source);
+  //   return source instanceof Task;
+  // },
   fields: {
     id: { type: new GraphQLNonNull(GraphQLID) },
     content: { type: new GraphQLNonNull(GraphQLString) },
     createdAt: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (source) => source.createdAt.toISOString(),
+      resolve: (source) => {
+        console.log(source);
+        return source.createdAt.toISOString();
+      },
     },
     tags: {
       type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GraphQLString))),
@@ -29,7 +36,7 @@ const Task = new GraphQLObjectType({
     },
     author: {
       type: new GraphQLNonNull(User),
-      resolve: (source, _, { loaders }) => loaders.users.load(source.userId),
+      resolve: (source, _, { loaders }) => loaders.getUsersById.load(source.userId),
     },
     approachCount: {
       type: new GraphQLNonNull(GraphQLInt),

@@ -20,10 +20,13 @@ async function main() {
   const pgAPI = await pgAPIWrapper();
   server.use('/', (req, res) => {
     const loaders = {
-      users: new DataLoader((userIds) => pgAPI.getUsersById(userIds)),
+      getUsersById: new DataLoader((userIds) => pgAPI.getUsersById(userIds)),
       approachLists: new DataLoader((taskIds) => pgAPI.approachLists(taskIds)),
-      tasks: new DataLoader((taskIds) => pgAPI.getTasksById(taskIds)),
-      tasksByType: new DataLoader((types) => pgAPI.getTasksByTypes(types)),
+      getTasksById: new DataLoader((taskIds) => pgAPI.getTasksById(taskIds)),
+      getTasksByType: new DataLoader((types) => pgAPI.getTasksByTypes(types)),
+      searchResults: new DataLoader((searchTerms) =>
+        pgAPI.searchResults(searchTerms)
+      ),
     };
 
     graphqlHTTP({

@@ -13,7 +13,8 @@ import SearchResultItem from './search-result-item';
 const Approach = new GraphQLObjectType({
   name: 'Approach',
   description: 'An Approach is a possible solution for a Task',
-  interfaces: [SearchResultItem],
+  interfaces: () => [SearchResultItem],
+  // isTypeOf: (source) => source instanceof Approach,
   fields: () => ({
     id: { type: new GraphQLNonNull(GraphQLID) },
     content: { type: new GraphQLNonNull(GraphQLString) },
@@ -24,11 +25,11 @@ const Approach = new GraphQLObjectType({
     voteCount: { type: new GraphQLNonNull(GraphQLInt) },
     author: {
       type: new GraphQLNonNull(User),
-      resolve: (source, _, { loaders }) => loaders.users.load(source.userId),
+      resolve: (source, _, { loaders }) => loaders.getUsersById.load(source.userId),
     },
     task: {
       type: new GraphQLNonNull(Task),
-      resolve: (source, _, { loaders }) => loaders.tasks.load(source.taskId),
+      resolve: (source, _, { loaders }) => loaders.getTasksById.load(source.taskId),
     },
   }),
 });
