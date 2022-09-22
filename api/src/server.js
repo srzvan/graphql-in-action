@@ -23,13 +23,14 @@ async function main() {
       users: new DataLoader((userIds) => pgAPI.getUsersById(userIds)),
       approachLists: new DataLoader((taskIds) => pgAPI.approachLists(taskIds)),
       tasks: new DataLoader((taskIds) => pgAPI.getTasksById(taskIds)),
+      tasksByType: new DataLoader((types) => pgAPI.getTasksByTypes(types)),
     };
 
     graphqlHTTP({
       schema,
       graphiql: true,
       customFormatErrorFn,
-      context: { pgAPI, loaders },
+      context: { loaders },
     })(req, res);
   });
 
