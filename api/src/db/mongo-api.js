@@ -1,9 +1,9 @@
 import mongoClient from './mongo-client';
 
 const CATEGORIES = {
-  NOTE: 'NOTE',
-  WARNING: 'WARNING',
-  EXPLANATION: 'EXPLANATION',
+  notes: 'NOTE',
+  warnings: 'WARNING',
+  explanations: 'EXPLANATION',
 };
 
 async function mongoAPIWrapper() {
@@ -38,29 +38,23 @@ async function mongoAPIWrapper() {
 }
 
 function convertToArrayOfObjects(document) {
-  const { explanations, notes, warnings } = document;
   const approachDetails = [];
 
-  if (explanations) {
-    approachDetails.push(
-      ...explanations.map((text) => ({
-        content: text,
-        category: CATEGORIES.EXPLANATION,
-      }))
-    );
-  }
+  const { notes, explanations, warnings } = document;
+  const categories = { notes, explanations, warnings };
 
-  if (notes) {
-    approachDetails.push(
-      ...notes.map((text) => ({ content: text, category: CATEGORIES.NOTE }))
-    );
-  }
+  Object.keys(categories).forEach((category) => {
+    const values = categories[category];
 
-  if (warnings) {
-    approachDetails.push(
-      ...warnings.map((text) => ({ content: text, category: CATEGORIES.WARNING }))
-    );
-  }
+    if (values) {
+      approachDetails.push(
+        ...values.map((text) => ({
+          content: text,
+          category: CATEGORIES[category],
+        }))
+      );
+    }
+  });
 
   return approachDetails;
 }
