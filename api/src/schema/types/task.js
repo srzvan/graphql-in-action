@@ -25,10 +25,7 @@ const Task = new GraphQLObjectType({
     content: { type: new GraphQLNonNull(GraphQLString) },
     createdAt: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (source) => {
-        console.log(source);
-        return source.createdAt.toISOString();
-      },
+      resolve: (source) => source.createdAt.toISOString(),
     },
     tags: {
       type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GraphQLString))),
