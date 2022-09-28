@@ -1,6 +1,7 @@
 import {
   GraphQLID,
   GraphQLInt,
+  GraphQLList,
   GraphQLString,
   GraphQLNonNull,
   GraphQLObjectType,
@@ -8,6 +9,7 @@ import {
 
 import User from './user';
 import Task from './task';
+import ApproachDetail from './approach-detail';
 import SearchResultItem from './search-result-item';
 
 const Approach = new GraphQLObjectType({
@@ -30,6 +32,11 @@ const Approach = new GraphQLObjectType({
     task: {
       type: new GraphQLNonNull(Task),
       resolve: (source, _, { loaders }) => loaders.getTasksById.load(source.taskId),
+    },
+    detailList: {
+      type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(ApproachDetail))),
+      resolve: (source, _, { loaders }) =>
+        loaders.getDetailListsByApproachIds.load(source.id),
     },
   }),
 });
