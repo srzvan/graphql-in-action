@@ -8,6 +8,7 @@ import { graphqlHTTP } from 'express-graphql';
 import { schema } from './schema';
 import * as config from './config';
 import pgAPIWrapper from './db/pg-api';
+import mongoAPIWrapper from './db/mongo-api';
 
 async function main() {
   const server = express();
@@ -18,6 +19,8 @@ async function main() {
   server.use('/:fav.ico', (req, res) => res.sendStatus(204));
 
   const pgAPI = await pgAPIWrapper();
+  const mongoAPI = await mongoAPIWrapper();
+
   server.use('/', (req, res) => {
     const loaders = {
       getUsersById: new DataLoader((userIds) => pgAPI.getUsersById(userIds)),
@@ -26,6 +29,9 @@ async function main() {
       getTasksByType: new DataLoader((types) => pgAPI.getTasksByTypes(types)),
       searchResults: new DataLoader((searchTerms) =>
         pgAPI.searchResults(searchTerms)
+      ),
+      getDetailListsByApproachIds: new DataLoader((approachIds) =>
+        mongoAPI.getDetailListsByApproachIds(approachIds)
       ),
     };
 
