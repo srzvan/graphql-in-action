@@ -7,7 +7,7 @@ import {
 } from 'graphql';
 
 import Task from './types/task';
-import { TASKS_TYPES } from '../db/pg-api';
+import { TASKS_TYPES } from '../db/pg-api/constants';
 import SearchResultItem from './types/search-result-item';
 
 export const QueryType = new GraphQLObjectType({
