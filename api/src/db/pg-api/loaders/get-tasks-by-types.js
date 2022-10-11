@@ -1,4 +1,4 @@
-import { TASKS_TYPES } from './constants';
+import { TASKS_TYPES } from '../constants';
 
 export function getTasksByTypes(query) {
   return async (types) => {

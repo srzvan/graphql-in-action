@@ -1,4 +1,4 @@
-import { convertArrayToObjectById } from '../../utils';
+import { convertArrayToObjectById } from '../../../utils';
 
 export function getUsersById(query) {
   return async (ids) => {

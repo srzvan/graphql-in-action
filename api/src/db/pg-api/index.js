@@ -1,9 +1,9 @@
 import { pgClient } from '../clients/pg-client';
-import { getUsersById } from './get-users-by-id';
-import { approachLists } from './approach-lists';
-import { getTasksById } from './get-tasks-by-id';
-import { searchResults } from './search-results';
-import { getTasksByTypes } from './get-tasks-by-types';
+import { getUsersById } from './loaders/get-users-by-id';
+import { approachLists } from './loaders/approach-lists';
+import { getTasksById } from './loaders/get-tasks-by-id';
+import { searchResults } from './loaders/search-results';
+import { getTasksByTypes } from './loaders/get-tasks-by-types';
 
 async function pgAPIWrapper() {
   const { pgPool: connectionsPool } = await pgClient();
