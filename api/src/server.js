@@ -23,16 +23,25 @@ async function main() {
 
   server.use('/', (req, res) => {
     const loaders = {
-      getUsersById: new DataLoader((userIds) => pgAPI.getUsersById(userIds)),
-      approachLists: new DataLoader((taskIds) => pgAPI.approachLists(taskIds)),
-      getTasksById: new DataLoader((taskIds) => pgAPI.getTasksById(taskIds)),
-      getTasksByType: new DataLoader((types) => pgAPI.getTasksByTypes(types)),
+      getUsersById: new DataLoader((userIds) => pgAPI.loaders.getUsersById(userIds)),
+      approachLists: new DataLoader((taskIds) =>
+        pgAPI.loaders.approachLists(taskIds)
+      ),
+      getTasksById: new DataLoader((taskIds) => pgAPI.loaders.getTasksById(taskIds)),
+      getTasksByType: new DataLoader((types) =>
+        pgAPI.loaders.getTasksByTypes(types)
+      ),
       searchResults: new DataLoader((searchTerms) =>
-        pgAPI.searchResults(searchTerms)
+        pgAPI.loaders.searchResults(searchTerms)
       ),
       getDetailListsByApproachIds: new DataLoader((approachIds) =>
-        mongoAPI.getDetailListsByApproachIds(approachIds)
+        mongoAPI.loaders.getDetailListsByApproachIds(approachIds)
       ),
+    };
+
+    const mutators = {
+      ...pgAPI.mutators,
+      ...mongoAPI.mutators,
     };
 
     graphqlHTTP({

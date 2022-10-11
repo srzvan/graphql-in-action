@@ -9,11 +9,14 @@ async function pgAPIWrapper() {
   const { pgPool: connectionsPool } = await pgClient();
 
   return {
-    getTasksByTypes: getTasksByTypes(query),
-    getUsersById: getUsersById(query),
-    approachLists: approachLists(query),
-    getTasksById: getTasksById(query),
-    searchResults: searchResults(query),
+    loaders: {
+      getTasksByTypes: getTasksByTypes(query),
+      getUsersById: getUsersById(query),
+      approachLists: approachLists(query),
+      getTasksById: getTasksById(query),
+      searchResults: searchResults(query),
+    },
+    mutators: {},
   };
 
   function query(text, params = {}) {
