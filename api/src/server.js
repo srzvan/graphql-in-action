@@ -48,7 +48,7 @@ async function main() {
       schema,
       graphiql: true,
       customFormatErrorFn,
-      context: { loaders },
+      context: { loaders, mutators },
     })(req, res);
   });
 

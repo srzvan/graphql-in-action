@@ -11,7 +11,7 @@ import { TASKS_TYPES } from '../db/pg-api/constants';
 import SearchResultItem from './types/search-result-item';
 
 export const QueryType = new GraphQLObjectType({
-  description: 'The root query entry point for the API',
+  description: 'The root query entry point of the API',
   name: 'Query',
   fields: {
     taskMainList: {
