@@ -28,7 +28,7 @@ async function main() {
         pgAPI.loaders.approachLists(taskIds)
       ),
       getTasksById: new DataLoader((taskIds) => pgAPI.loaders.getTasksById(taskIds)),
-      getTasksByType: new DataLoader((types) =>
+      getTasksByTypes: new DataLoader((types) =>
         pgAPI.loaders.getTasksByTypes(types)
       ),
       searchResults: new DataLoader((searchTerms) =>

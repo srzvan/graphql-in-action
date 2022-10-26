@@ -18,7 +18,7 @@ export const QueryType = new GraphQLObjectType({
       description: 'A list of the most recent 100 Task objects',
       type: new GraphQLList(new GraphQLNonNull(Task)),
       resolve: (_, __, { loaders }) =>
-        loaders.getTasksByType.load(TASKS_TYPES.latest),
+        loaders.getTasksByTypes.load(TASKS_TYPES.latest),
     },
     taskInfo: {
       description: 'Get information about a Task entity by ID',
