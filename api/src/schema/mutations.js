@@ -5,6 +5,7 @@ import UserPayload from './types/user-payload';
 
 export const MutationType = new GraphQLObjectType({
   description: 'The root mutation entry point of the API',
+  name: 'Mutation',
   fields: () => ({
     userCreate: {
       type: new GraphQLNonNull(UserPayload),
