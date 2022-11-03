@@ -6,6 +6,7 @@ import { getTasksById } from './loaders/get-tasks-by-id';
 import { searchResults } from './loaders/search-results';
 import { getTasksByTypes } from './loaders/get-tasks-by-types';
 
+import { userLogin } from './mutators/user-login';
 import { userCreate } from './mutators/user-create';
 
 async function pgAPIWrapper() {
@@ -21,6 +22,7 @@ async function pgAPIWrapper() {
     },
     mutators: {
       userCreate: userCreate(query),
+      userLogin: userLogin(query),
     },
   };
 
