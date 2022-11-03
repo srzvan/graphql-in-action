@@ -46,7 +46,7 @@ async function main() {
 
     graphqlHTTP({
       schema,
-      graphiql: true,
+      graphiql: { headerEditorEnabled: true },
       customFormatErrorFn,
       context: { loaders, mutators },
     })(req, res);
