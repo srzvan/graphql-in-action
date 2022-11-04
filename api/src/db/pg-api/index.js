@@ -1,5 +1,7 @@
 import { pgClient } from '../clients/pg-client';
 
+import { userFromAuthToken } from './authorization/user-from-auth-token';
+
 import { getUsersById } from './loaders/get-users-by-id';
 import { approachLists } from './loaders/approach-lists';
 import { getTasksById } from './loaders/get-tasks-by-id';
@@ -13,6 +15,9 @@ async function pgAPIWrapper() {
   const { pgPool: connectionsPool } = await pgClient();
 
   return {
+    authorization: {
+      userFromAuthToken: userFromAuthToken(query),
+    },
     loaders: {
       getTasksByTypes: getTasksByTypes(query),
       getUsersById: getUsersById(query),
