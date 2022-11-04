@@ -66,7 +66,7 @@ async function main() {
       schema,
       graphiql: { headerEditorEnabled: true },
       customFormatErrorFn,
-      context: { loaders, mutators },
+      context: { loaders, mutators, currentUser },
     })(req, res);
   });
 
