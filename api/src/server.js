@@ -10,6 +10,10 @@ import * as config from './config';
 import pgAPIWrapper from './db/pg-api';
 import mongoAPIWrapper from './db/mongo-api';
 
+const ERRORS = {
+  invalidAccessToken: 'Invalid access token',
+};
+
 async function main() {
   const server = express();
   server.use(cors());
@@ -21,7 +25,19 @@ async function main() {
   const pgAPI = await pgAPIWrapper();
   const mongoAPI = await mongoAPIWrapper();
 
-  server.use('/', (req, res) => {
+  server.use('/', async (req, res) => {
+    const authToken =
+      req && req.headers && req.headers.authorization
+        ? req.headers.authorization.slice(7) // Bearer
+        : null;
+    const currentUser = await pgAPI.authorization.userFromAuthToken(authToken);
+
+    if (authToken && !currentUser) {
+      return res
+        .status(401)
+        .send({ errors: [{ message: ERRORS.invalidAccessToken }] });
+    }
+
     const loaders = {
       getUsersById: new DataLoader((userIds) => pgAPI.loaders.getUsersById(userIds)),
       approachLists: new DataLoader((taskIds) =>
