@@ -20,7 +20,7 @@ async function main() {
   server.use(morgan('dev'));
   server.use(bodyParser.urlencoded({ extended: false }));
   server.use(bodyParser.json());
-  server.use('/:fav.ico', (req, res) => res.sendStatus(204));
+  server.use('/:fav.ico', (_, res) => res.sendStatus(204));
 
   const pgAPI = await pgAPIWrapper();
   const mongoAPI = await mongoAPIWrapper();
@@ -43,12 +43,14 @@ async function main() {
       approachLists: new DataLoader((taskIds) =>
         pgAPI.loaders.approachLists(taskIds)
       ),
-      getTasksById: new DataLoader((taskIds) => pgAPI.loaders.getTasksById(taskIds)),
+      getTasksById: new DataLoader((taskIds) =>
+        pgAPI.loaders.getTasksById({ taskIds, currentUser })
+      ),
       getTasksByTypes: new DataLoader((types) =>
         pgAPI.loaders.getTasksByTypes(types)
       ),
       searchResults: new DataLoader((searchTerms) =>
-        pgAPI.loaders.searchResults(searchTerms)
+        pgAPI.loaders.searchResults({ searchTerms, currentUser })
       ),
       getDetailListsByApproachIds: new DataLoader((approachIds) =>
         mongoAPI.loaders.getDetailListsByApproachIds(approachIds)

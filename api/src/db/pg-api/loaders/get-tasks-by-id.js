@@ -1,8 +1,8 @@
 export function getTasksById(query) {
-  return async (taskIds) => {
+  return async ({ taskIds, currentUser }) => {
     const response = await query(statement, {
       $1: taskIds,
-      $2: null, // TODO: pass logged-in userId here.
+      $2: currentUser ? currentUser.id : null,
     });
 
     return taskIds.map((taskId) => response.rows.find((row) => taskId == row.id));

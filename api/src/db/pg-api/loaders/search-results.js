@@ -1,9 +1,9 @@
 export function searchResults(query) {
-  return async (searchTerms) => {
+  return async ({ searchTerms, currentUser }) => {
     const results = searchTerms.map(async (term) => {
       const response = await query(statement, {
         $1: term,
-        $2: null,
+        $2: currentUser ? currentUser.id : null,
       });
 
       return response.rows;
