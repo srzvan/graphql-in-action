@@ -49,6 +49,9 @@ async function main() {
       getTasksByTypes: new DataLoader((types) =>
         pgAPI.loaders.getTasksByTypes(types)
       ),
+      getTaskListsByUserIds: new DataLoader((userIds) =>
+        pgAPI.loaders.getTaskListsByUserIds(userIds)
+      ),
       searchResults: new DataLoader((searchTerms) =>
         pgAPI.loaders.searchResults({ searchTerms, currentUser })
       ),

@@ -7,6 +7,7 @@ import { approachLists } from './loaders/approach-lists';
 import { getTasksById } from './loaders/get-tasks-by-id';
 import { searchResults } from './loaders/search-results';
 import { getTasksByTypes } from './loaders/get-tasks-by-types';
+import { getTaskListsByUserIds } from './loaders/get-task-lists-by-user-ids';
 
 import { userLogin } from './mutators/user-login';
 import { userCreate } from './mutators/user-create';
@@ -23,6 +24,7 @@ async function pgAPIWrapper() {
       getUsersById: getUsersById(query),
       approachLists: approachLists(query),
       getTasksById: getTasksById(query),
+      getTaskListsByUserIds: getTaskListsByUserIds(query),
       searchResults: searchResults(query),
     },
     mutators: {

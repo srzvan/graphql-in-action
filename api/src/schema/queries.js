@@ -6,8 +6,8 @@ import {
   GraphQLString,
 } from 'graphql';
 
-import User from './types/user';
 import Task from './types/task';
+import { Me } from './types/user';
 import { TASKS_TYPES } from '../db/pg-api/constants';
 import SearchResultItem from './types/search-result-item';
 
@@ -44,7 +44,7 @@ export const QueryType = new GraphQLObjectType({
       resolve: (_, args, { loaders }) => loaders.searchResults.load(args.term),
     },
     me: {
-      type: User,
+      type: Me,
       resolve: async (_, __, { currentUser }) => currentUser,
     },
   },
