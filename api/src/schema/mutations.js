@@ -2,6 +2,8 @@ import { GraphQLNonNull, GraphQLObjectType } from 'graphql';
 
 import AuthInput from './types/auth-input';
 import UserInput from './types/user-input';
+import TaskInput from './types/task-input';
+import TaskPayload from './types/task-payload';
 import UserPayload from './types/user-payload';
 
 export const MutationType = new GraphQLObjectType({
@@ -24,6 +26,15 @@ export const MutationType = new GraphQLObjectType({
       },
       resolve: async (_, { input }, { mutators }) => {
         return mutators.userLogin({ input });
+      },
+    },
+    taskCreate: {
+      type: TaskPayload,
+      args: {
+        input: { type: new GraphQLNonNull(TaskInput) },
+      },
+      resolve: (_, { input }, { mutators, currentUser }) => {
+        return mutators.taskCreate({ input, currentUser });
       },
     },
   }),
