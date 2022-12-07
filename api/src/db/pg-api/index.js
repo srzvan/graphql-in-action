@@ -12,6 +12,7 @@ import { getTaskListsByUserIds } from './loaders/get-task-lists-by-user-ids';
 import { userLogin } from './mutators/user-login';
 import { userCreate } from './mutators/user-create';
 import { taskCreate } from './mutators/task-create';
+import { taskUpdate } from './mutators/task-update';
 
 async function pgAPIWrapper() {
   const { pgPool: connectionsPool } = await pgClient();
@@ -32,6 +33,7 @@ async function pgAPIWrapper() {
       userCreate: userCreate(query),
       userLogin: userLogin(query),
       taskCreate: taskCreate(query),
+      taskUpdate: taskUpdate(query),
     },
   };
 

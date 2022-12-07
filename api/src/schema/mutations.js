@@ -5,6 +5,7 @@ import UserInput from './types/user-input';
 import TaskInput from './types/task-input';
 import TaskPayload from './types/task-payload';
 import UserPayload from './types/user-payload';
+import TaskUpdateInput from './types/task-update-input';
 
 export const MutationType = new GraphQLObjectType({
   description: 'The root mutation entry point of the API',
@@ -35,6 +36,15 @@ export const MutationType = new GraphQLObjectType({
       },
       resolve: (_, { input }, { mutators, currentUser }) => {
         return mutators.taskCreate({ input, currentUser });
+      },
+    },
+    taskUpdate: {
+      type: TaskPayload,
+      args: {
+        input: { type: new GraphQLNonNull(TaskUpdateInput) },
+      },
+      resolve: (_, { input }, { mutators, currentUser }) => {
+        return mutators.taskUpdate({ input, currentUser });
       },
     },
   }),
