@@ -1,17 +1,15 @@
-const COLLECTION_NAME = 'approachDetails';
-const FIELD_NAME = 'pgId';
+import PG_ID_FIELD_NAME from '../index';
 
 const CATEGORIES = {
-  notes: 'NOTE',
-  warnings: 'WARNING',
-  explanations: 'EXPLANATION',
+  notes: 'notes',
+  warnings: 'warnings',
+  explanations: 'explanations',
 };
 
 export function getDetailListsByApproachIds(findDocumentsByField) {
   return async (approachIds) => {
     const documents = await findDocumentsByField({
-      collectionName: COLLECTION_NAME,
-      fieldName: FIELD_NAME,
+      fieldName: PG_ID_FIELD_NAME,
       fieldValues: approachIds,
     });
 

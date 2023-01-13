@@ -1,10 +1,12 @@
-import { GraphQLNonNull, GraphQLObjectType } from 'graphql';
+import { GraphQLID, GraphQLNonNull, GraphQLObjectType } from 'graphql';
 
 import AuthInput from './types/auth-input';
 import UserInput from './types/user-input';
 import TaskInput from './types/task-input';
 import TaskPayload from './types/task-payload';
 import UserPayload from './types/user-payload';
+import ApproachInput from './types/approach-input';
+import ApproachPayload from './types/approach-payload';
 import TaskUpdateInput from './types/task-update-input';
 
 export const MutationType = new GraphQLObjectType({
@@ -45,6 +47,16 @@ export const MutationType = new GraphQLObjectType({
       },
       resolve: (_, { input }, { mutators, currentUser }) => {
         return mutators.taskUpdate({ input, currentUser });
+      },
+    },
+    approachCreate: {
+      type: ApproachPayload,
+      args: {
+        taskId: { type: GraphQLNonNull(GraphQLID) },
+        input: { type: GraphQLNonNull(ApproachInput) },
+      },
+      resolve: async (_, { taskId, input }, { mutators, currentUser }) => {
+        return mutators.approachCreate({ taskId, currentUser, input, mutators });
       },
     },
   }),

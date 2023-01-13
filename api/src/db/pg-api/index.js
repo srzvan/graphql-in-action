@@ -13,6 +13,7 @@ import { userLogin } from './mutators/user-login';
 import { userCreate } from './mutators/user-create';
 import { taskCreate } from './mutators/task-create';
 import { taskUpdate } from './mutators/task-update';
+import { approachCreate } from './mutators/approach-create';
 
 async function pgAPIWrapper() {
   const { pgPool: connectionsPool } = await pgClient();
@@ -34,6 +35,7 @@ async function pgAPIWrapper() {
       userLogin: userLogin(query),
       taskCreate: taskCreate(query),
       taskUpdate: taskUpdate(query),
+      approachCreate: approachCreate(query),
     },
   };
 
